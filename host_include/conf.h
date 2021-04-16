@@ -1,6 +1,7 @@
 #ifndef _out_arm_plat_meson_include_generated_conf_h_
 #define _out_arm_plat_meson_include_generated_conf_h_
 #define CFG_AES_GCM_TABLE_BASED 1
+/* CFG_AE_DECRYPT is not set */
 #define CFG_ARM32_core 1
 #define CFG_ARM32_ldelf 1
 #define CFG_ARM32_ta_arm32 1
@@ -83,6 +84,7 @@
 #define CFG_DEBUG_INFO 1
 #define CFG_DEMUX 1
 #define CFG_DEVICE_ENUM_PTA 1
+#define CFG_DEVICE_KEY 1
 #define CFG_DMC 1
 #define CFG_DMC_V3 1
 #define CFG_DOLBY_QUERY 1
@@ -109,7 +111,7 @@
 /* CFG_HDCP_DEBUG is not set */
 #define CFG_HWSUPP_MEM_PERM_PXN 1
 #define CFG_HWSUPP_MEM_PERM_WXN 1
-#define CFG_HW_KL 1
+/* CFG_HW_KL is not set */
 /* CFG_HW_KL_TEST is not set */
 #define CFG_KDF_MKL 1
 /* CFG_KDF_MKL_TEST is not set */

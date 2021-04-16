@@ -45,8 +45,10 @@ typedef void *TEE_Tvp_Handle;
 
 #define TEE_TVP_VIDEO_LAYER_OFFSET      0
 #define TEE_TVP_VIDEO_TYPE_OFFSET       4
+#define TEE_TVP_MEM_LEVEL_OFFSET        8
 #define TEE_TVP_VIDEO_LAYER_MASK        0xF
 #define TEE_TVP_VIDEO_TYPE_MASK         0xF0
+#define TEE_TVP_MEM_LEVEL_MASK          0xF00
 
 #define TEE_TVP_CFG_VIDEO_LAYER_NONE    (0<<TEE_TVP_VIDEO_LAYER_OFFSET)
 #define TEE_TVP_CFG_VIDEO_LAYER_1       (1<<TEE_TVP_VIDEO_LAYER_OFFSET)
@@ -125,7 +127,8 @@ struct tee_timer {
 #define KT_REE_ONLY          (0)
 
 /* key source */
-#define KT_SRC_CERT         (15)
+#define KT_SRC_TEE_CERT     (16)
+#define KT_SRC_REE_CERT     (15)
 #define KT_SRC_NSK          (14)
 #define KT_SRC_MSR3         (13)
 #define KT_SRC_VO           (12)
@@ -146,6 +149,11 @@ struct tee_timer {
 #define KT_ALLOC_FLAG_HOST_MASK       (1 << 1)
 
 #define CRYPTO_DMA_THREAD_DEFAULT     0xffffffff
+/* keyladder narga mode mrk type */
+#define TEE_KL_MRK_NAGRA_NSD    (0)
+#define TEE_KL_MRK_ORK_REE      (1)
+#define TEE_KL_MRK_ORK_TEE      (2)
+#define TEE_KL_MRK_NAGRA        (3)
 
 typedef struct tee_key_cfg_s {
 	uint32_t key_userid;
@@ -155,6 +163,14 @@ typedef struct tee_key_cfg_s {
 	uint32_t tee_priv;
 	uint32_t key_source;
 }tee_key_cfg_t;
+
+typedef enum {
+	TEE_KL_MODE_MKL,
+	TEE_KL_MODE_NAGRA,
+	TEE_KL_MODE_ETSI,
+	TEE_KL_MODE_CSA2,
+	TEE_KL_MODE_MAX,
+} tee_kl_mode_t;
 
 typedef enum {
 	TEE_KL_ALGO_TDES = 0,
@@ -178,6 +194,22 @@ typedef struct tee_kl_run_param_v2 {
 	uint8_t         mrk_cfg_index;    /* MRK config index, 0 ~ 3, should map EFUSE defintion */
 	uint8_t         eks[6][16];       /* eks[0] is ECW, eks[n] is EKn, n is 1 ~ 5 */
 } tee_kl_run_conf_t;
+
+typedef struct tee_kl_run_param_nv {
+	uint32_t        kt_handle;        /* Key table handle */
+	uint8_t         levels;           /* Key ladder level, levle can be 3 ~ 6, should map EFUSE defintion */
+	uint8_t         secure_level;     /* Key ladder secure level, should be 0 ~ 3 */
+	uint8_t         tee_priv;         /* Key ladder tee private flag, should be 0 or 1 */
+	uint8_t         reserved0;        /* for 32 bits aligned */
+	tee_kl_usage_t  usage;            /* Key ladder usage rule */
+	tee_kl_algo_t   kl_algo;          /* Key ladder algo, *NOT* root key algo */
+	tee_kl_mode_t   kl_mode;          /* Key ladder mode, 0:MKL/1:Nagra/2:ETSI/3:CAS2 */
+	uint8_t         module_id;        /* Key ladder module ID */
+	uint8_t         mrk_cfg_index;    /* MRK config index, 0 ~ 3, should map EFUSE defintion */
+	uint8_t         func_id;          /* func id, 0 ~ 3 */
+	uint8_t         reserved1;        /* for 32 bits aligned */
+	uint8_t         eks[6][16];       /* eks[0] is ECW, eks[n] is EKn, n is 1 ~ 5 */
+} tee_kl_run_conf_nv_t;
 
 typedef struct tee_kl_cr_conf {
 	uint8_t         module_id;        /* Key ladder module ID */
@@ -471,5 +503,40 @@ typedef struct {
 	uint16_t	spacing_horz;
 	uint8_t		symbol_scale_control;
 } vmx_hw_soc_rend_t;
+
+/* nagra type */
+typedef void *TEE_Nagra_Cert_Handle;
+
+typedef enum {
+	TEE_CERT_TIMEOUT_DEFAULT,
+	TEE_CERT_TIMEOUT_OTP,
+	TEE_LAST_CERT_TIMEOUT
+} timeout_type_t;
+
+typedef struct {
+	uint8_t input_data[32];
+	uint8_t output_data[32];
+	uint8_t status[4];
+	uint8_t cmd[4];
+	timeout_type_t timeout;
+} cert_command_t;
+
+typedef enum {
+	TEE_CAS_ID_AML,
+	TEE_CAS_ID_ACGK,
+	TEE_CAS_ID_DVGK,
+	TEE_CAS_ID_DVUK,
+	TEE_CAS_ID_DGPK,
+	TEE_CAS_ID_SECPU,
+	TEE_CAS_ID_ETSI_0_1_2,
+	TEE_CAS_ID_ETSI_3,
+	TEE_CAS_ID_MSR,
+	TEE_CAS_ID_VO,
+	TEE_CAS_ID_NUID,
+	TEE_CAS_ID_CONAX,
+	TEE_CAS_ID_NSK,
+
+	TEE_CAS_ID_MAX,
+} cas_id_t;
 
 #endif

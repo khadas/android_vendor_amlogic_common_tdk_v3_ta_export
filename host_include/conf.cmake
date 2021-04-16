@@ -1,6 +1,7 @@
 # auto-generated TEE configuration file
-# TEE version ATOS-V3.8.0-b1f67fdc4
+# TEE version ATOS-V3.8.0-eb6c2b32a
 set(CFG_AES_GCM_TABLE_BASED y)
+# CFG_AE_DECRYPT is not set 
 set(CFG_ARM32_core y)
 set(CFG_ARM32_ldelf y)
 set(CFG_ARM32_ta_arm32 y)
@@ -83,6 +84,7 @@ set(CFG_CRYPTO_XTS y)
 set(CFG_DEBUG_INFO y)
 set(CFG_DEMUX y)
 set(CFG_DEVICE_ENUM_PTA y)
+set(CFG_DEVICE_KEY y)
 set(CFG_DMC y)
 set(CFG_DMC_V3 y)
 set(CFG_DOLBY_QUERY y)
@@ -109,7 +111,7 @@ set(CFG_HDCP y)
 # CFG_HDCP_DEBUG is not set 
 set(CFG_HWSUPP_MEM_PERM_PXN y)
 set(CFG_HWSUPP_MEM_PERM_WXN y)
-set(CFG_HW_KL y)
+# CFG_HW_KL is not set 
 # CFG_HW_KL_TEST is not set 
 set(CFG_KDF_MKL y)
 # CFG_KDF_MKL_TEST is not set 

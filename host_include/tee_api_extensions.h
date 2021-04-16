@@ -542,6 +542,53 @@ TEE_Result TEE_CipherEncrypt_With_Kwrap(const uint8_t *iv, uint32_t iv_len,
 TEE_Result TEE_CipherDecrypt_With_Kwrap(const uint8_t *iv, uint32_t iv_len,
 		const uint8_t *src, uint32_t src_len, uint8_t *dst, uint32_t *dst_len);
 
+/*
+ * Desc: AE decrypt with kwrap
+ *
+ * Input:
+ * algorithm: TEE_ALG_AES_GCM
+ * iv: iv used to do decrypt
+ * iv_len: iv size
+ * src: source code need decrypt
+ * src_len: source code size
+ * tag: tag to be compared
+ * tag_len: tag size
+ *
+ * Output:
+ * dst: decrypted code
+ * dst_len: decrypted code size
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_AEDecrypt_With_Derived_Kwrap(uint32_t algorithm,
+		uint8_t *iv, uint32_t ivlen,
+		uint8_t *src, uint32_t srclen,
+		uint8_t *dst, uint32_t len,
+		uint8_t *tag, uint32_t taglen);
+
+/*
+ * Desc: cipher decrypt with ksecret
+ *
+ * Input:
+ * iv: iv used to do decrypt
+ * iv_len: iv size
+ * src: source code need decrypt
+ * src_len: source code size
+ * tag: tag to be compared
+ * tag_len: tag size
+ *
+ * Output:
+ * dst: decrypted code
+ * dst_len: decrypted code size
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_AEDecrypt_With_Derived_Ksecret(uint32_t algorithm,
+		uint8_t *iv, uint32_t ivlen,
+		uint8_t *src, uint32_t srclen,
+		uint8_t *dst, uint32_t len,
+		uint8_t *tag, uint32_t taglen);
+
 /* ================================ KEYTABLE API ================================ */
 /*
  * Desc: alloc key entry in key table
@@ -635,6 +682,17 @@ TEE_Result TEE_CipherDecrypt_With_KT(uint32_t handle, uint32_t algo,
 		uint8_t *dst, uint32_t *dst_len,
 		uint32_t thread);
 
+/*
+* Desc: get key status in key table
+*
+* Input:
+* handle: key table entry handle
+* status: key status
+*
+* Return: TEE_SUCCESS if suceess
+*/
+TEE_Result TEE_Keytable_Get_Status(uint32_t handle, uint32_t *status);
+
 /* ============================= KEYLADDER API ============================= */
 /*
  * Desc: run key ladder and install key to key table entry
@@ -660,6 +718,16 @@ TEE_Result TEE_KL_Run_V2(tee_kl_run_conf_t *p_conf);
 TEE_Result TEE_KL_GetResponseToChallenge_V2(
 		tee_kl_cr_conf_t *p_conf,
 		uint8_t dnonce[16]);
+
+/*
+ * Desc: run nagra key ladder and install key to key table entry
+ *
+ * Input:
+ * p_conf: the key ladder configuration
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_KL_Run_NV(tee_kl_run_conf_nv_t *p_conf);
 
 /* ============================= NexGuard Watermark API ============================= */
 /*
@@ -829,4 +897,62 @@ TEE_Result TEE_Mailbox_Recv(uint8_t *outbuf, uint32_t *outlen);
  * Return: TEE_SUCCESS if suceess
  */
 TEE_Result TEE_SyncPersistentObject(void);
+
+/*
+ * Desc: CERT Lock
+ *
+ * Output:
+ * handle: cert handle
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Nagra_Cert_Lock(TEE_Nagra_Cert_Handle *handle);
+
+/*
+ * Desc: CERT Unlock
+ *
+ * Output:
+ * handle: cert handle
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Nagra_Cert_Unlock(TEE_Nagra_Cert_Handle handle);
+
+/*
+ * Desc: CERT Reset
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Nagra_Cert_Reset(void);
+
+/*
+ * Desc: CERT Unlock
+ *
+ * Input:
+ * handle: CERT handle to process
+ * cmd_num: command num to process
+ * commands: data to process
+ *
+ * Output:
+ * cmds_processed: processed command num
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Nagra_Cert_Exchange(TEE_Nagra_Cert_Handle handle, size_t cmd_num,
+		cert_command_t *commands, size_t *cmds_processed);
+
+/*
+ * Desc: Read out ID for CAS or keys
+ *
+ * Input:
+ * type: CAS or key type
+ * id: buffer to hold id
+ * len: length of id buffer
+ *
+ * Output:
+ * id: id will hold the requested ID
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Get_CAS_ID(uint32_t type, uint8_t *id, uint32_t len);
 #endif

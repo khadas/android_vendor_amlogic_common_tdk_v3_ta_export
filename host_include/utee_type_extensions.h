@@ -259,6 +259,8 @@ struct tee_timer_param {
 /* ================================ PROVISION ============================ */
 #define TEE_EXTEND_CIPHER_ENCRYPT_WITH_KWRAP               0x1090
 #define TEE_EXTEND_CIPHER_DECRYPT_WITH_KWRAP               0x1091
+#define TEE_EXTEND_AE_DECRYPT_WITH_DERIVED_KWRAP           0x1092
+#define TEE_EXTEND_AE_DECRYPT_WITH_DERIVED_KSECRET         0x1093
 
 struct tee_cipher_encrypt_with_kwrap_param {
 	const uint8_t *iv;
@@ -278,12 +280,37 @@ struct tee_cipher_decrypt_with_kwrap_param {
 	uint32_t *dst_len;
 };
 
+struct tee_ae_crypt_with_derived_kwrap_param {
+	uint32_t algo;
+	uint8_t *iv;
+	uint32_t ivlen;
+	uint8_t *src;
+	uint32_t srclen;
+	uint8_t *dst;
+	uint32_t dstlen;
+	uint8_t *tag;
+	uint32_t taglen;
+};
+
+struct tee_ae_crypt_with_derived_ksecret_param {
+	uint32_t algo;
+	uint8_t *iv;
+	uint32_t ivlen;
+	uint8_t *src;
+	uint32_t srclen;
+	uint8_t *dst;
+	uint32_t dstlen;
+	uint8_t *tag;
+	uint32_t taglen;
+};
+
 /* ================================ KEYTABLE ================================ */
 #define TEE_EXTEND_KT_ALLOC                                0x1060
 #define TEE_EXTEND_KT_SET_KEY                              0x1061
 #define TEE_EXTEND_KT_FREE                                 0x1062
 #define TEE_EXTEND_KT_CONFIG                               0x1063
 #define TEE_EXTEND_KT_CRYPTO                               0x1064
+#define TEE_EXTEND_KT_GET_STATUS                           0x1065
 
 struct tee_kt_alloc_param {
 	uint32_t flag;
@@ -299,6 +326,11 @@ struct tee_kt_set_key_param {
 	uint32_t handle;
 	uint8_t *key;
 	uint32_t keylen;
+};
+
+struct tee_kt_get_status_param {
+	uint32_t handle;
+	uint32_t *status;
 };
 
 struct tee_kt_free_param {
@@ -321,6 +353,7 @@ struct tee_kt_crypto_param {
 /* ================================ KEYLADDER ============================ */
 #define TEE_EXTEND_KL_RUN_V2                                0x10A0
 #define TEE_EXTEND_KL_CR_V2                                 0x10A1
+#define TEE_EXTEND_KL_RUN_NV                                0x10A2
 
 struct tee_kl_cr_param_v2 {
 	struct tee_kl_cr_conf cfg;
@@ -422,6 +455,23 @@ struct tee_shm_param {
 	uint32_t size;
 };
 
+/* ========================= NAGRA CERT ============================ */
+#define TEE_EXTEND_NAGRA_CERT_LOCK                         0x1100
+#define TEE_EXTEND_NAGRA_CERT_UNLOCK                       0x1101
+#define TEE_EXTEND_NAGRA_CERT_RESET                        0x1102
+#define TEE_EXTEND_NAGRA_CERT_EXCHANGE                     0x1103
+
+struct tee_nagra_cert_lock_params {
+	TEE_Nagra_Cert_Handle handle;
+};
+
+struct tee_nagra_cert_exchange_params {
+	TEE_Nagra_Cert_Handle handle;
+	size_t cmd_num;
+	cert_command_t *commands;
+	size_t *cmds_processed;
+};
+
 /* ========================= RNG APIs =========================== */
 #define TEE_EXTEND_READ_RNG                                0x2000
 struct tee_read_rng_param {
@@ -440,5 +490,14 @@ struct tee_mailbox_param {
 
 /* ========================= STORAGE SYNC ========================== */
 #define TEE_EXTEND_STORAGE_SYNC                            0x2020
+
+/* ========================= CAS GENERIC =========================== */
+#define TEE_EXTEND_GET_CAS_ID                              0x1110
+
+struct tee_cas_id_params {
+	cas_id_t type;
+	uint8_t *id;
+	uint32_t len;
+};
 
 #endif
