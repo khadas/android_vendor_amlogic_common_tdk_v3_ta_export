@@ -29,6 +29,7 @@
 
 #include <types_ext.h>
 #include <tee_api_types_extensions.h>
+#include <utee_type_extensions.h>
 
 /* ================================ EFUSE API ================================ */
 
@@ -346,6 +347,19 @@ TEE_Result TEE_Tvp_Get_Video_Layer(uint32_t video_layer, uint32_t *enabled);
  * Return: TEE_SUCCESS if suceess
  */
 TEE_Result TEE_Tvp_Set_Audio_Mute(uint32_t mute);
+
+/*
+ * Desc: get memory status by memory type
+ *
+ * Input:
+ * type: memory type
+ *
+ * Output:
+ * status: the memory status
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Tvp_Get_Status(uint32_t type, uint32_t *status);
 
 /* ================================ KEYMASTER API ================================ */
 /*
@@ -955,4 +969,67 @@ TEE_Result TEE_Nagra_Cert_Exchange(TEE_Nagra_Cert_Handle handle, size_t cmd_num,
  * Return: TEE_SUCCESS if suceess
  */
 TEE_Result TEE_Get_CAS_ID(uint32_t type, uint8_t *id, uint32_t len);
+
+/*
+ * Desc: Derive key by MKL which is setup with MSR/ETSI mode
+ *
+ * Input:
+ * param: parameters for deriving key
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_MKL_MSR_Derive_Key(tee_mkl_msr_derive_key_param_t *param);
+
+/*
+ * Desc: Read data from NSK memory
+ *
+ * Input:
+ * mem_type: memory area (nsk memory, secure top)
+ * output: buff read from NSK memory
+ * offset: Offset from the base of NSK memory
+ * size: length of output, Number of bytes
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_NSK_Read8(nsk_mem_type_t mem_type, uint8_t *output, uint32_t offset, size_t size);
+
+/*
+ * Desc: Read data from NSK memory
+ *
+ * Input:
+ * mem_type: memory area (nsk memory, secure top)
+ * output: buff read from NSK memory
+ * offset: Offset from the base of NSK memory
+ * size: length of output, Number of 32-bit words
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_NSK_Read32(nsk_mem_type_t mem_type, uint32_t *output, uint32_t offset, size_t size);
+
+/*
+ * Desc: Write data to NSK memory
+ *
+ * Input:
+ * mem_type: memory area (nsk memory, secure top)
+ * input: buff to write to NSK memory
+ * offset: Offset from the base of NSK memory
+ * size: length of input, Number of bytes
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_NSK_Write8(nsk_mem_type_t mem_type, uint8_t *input, uint32_t offset, size_t size);
+
+/*
+ * Desc: Write data to NSK memory
+ *
+ * Input:
+ * mem_type: memory area (nsk memory, secure top)
+ * input: buff to write to NSK memory
+ * offset: Offset from the base of NSK memory
+ * size: length of input, Number of 32-bit words
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_NSK_Write32(nsk_mem_type_t mem_type, uint32_t *input, uint32_t offset, size_t size);
+
 #endif

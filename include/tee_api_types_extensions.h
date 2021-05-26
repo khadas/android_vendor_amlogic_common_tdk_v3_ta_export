@@ -539,4 +539,10 @@ typedef enum {
 	TEE_CAS_ID_MAX,
 } cas_id_t;
 
+typedef enum {
+	TEE_NSK_MEM_TYPE_MEM,
+	TEE_NSK_MEM_TYPE_SECURE_TOP,
+	TEE_NSK_MEM_TYPE_MAX,
+} nsk_mem_type_t;
+
 #endif

@@ -123,6 +123,7 @@ struct tee_video_fw_param {
 #define TEE_EXTEND_TVP_SET_VIDEO_LAYER                     0x1049
 #define TEE_EXTEND_TVP_GET_VIDEO_LAYER                     0x104a
 #define TEE_EXTEND_TVP_SET_AUDIO_MUTE                      0x104b
+#define TEE_EXTEND_TVP_GET_STATUS                          0x104c
 
 struct tee_vdec_info_param {
 	paddr_t pa;
@@ -143,6 +144,11 @@ struct tee_tvp_close_chan_param {
 struct tee_tvp_bind_chan_param {
 	TEE_Tvp_Handle handle;
 	TEE_UUID uuid;
+};
+
+struct tee_tvp_get_status_param {
+	uint32_t type;
+	uint32_t status;
 };
 
 struct tee_vdec_mmap_param {
@@ -500,4 +506,37 @@ struct tee_cas_id_params {
 	uint32_t len;
 };
 
+/* =========================== CAS2 ================================ */
+#define TEE_EXTEND_MKL_MSR_DERIVE_KEY                     0x2030
+typedef struct {
+	uint8_t EKs[16 * 3]; // Max: 3 EKs
+	uint8_t aid; 	 // Also known as func_id for the case that kl_mode is not set to cas2
+	uint8_t kl_algo;
+	uint8_t encrypt; // usage in KT
+	uint8_t decrypt; // usage in KT
+	uint8_t user;    // allowable user in KT
+	uint8_t kte;     // key table entry
+	uint8_t key_algo;// allowable algo in KT
+	uint8_t kl_mode;
+	uint8_t mrk;
+	uint8_t mid;
+} tee_mkl_msr_derive_key_param_t;
+
+/* ================================ NSK ================================ */
+#define TEE_EXTEND_NSK_READ_MEMORY                          0x2040
+#define TEE_EXTEND_NSK_WRITE_MEMORY                         0x2041
+
+struct tee_nsk_read_memory_param {
+	nsk_mem_type_t mem_type;
+	uint8_t *buf;
+	uint32_t offset;
+	size_t size;
+};
+
+struct tee_nsk_write_memory_param {
+	nsk_mem_type_t mem_type;
+	uint8_t *buf;
+	uint32_t offset;
+	size_t size;
+};
 #endif

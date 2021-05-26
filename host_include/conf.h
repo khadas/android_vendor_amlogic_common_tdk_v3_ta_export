@@ -87,7 +87,7 @@
 #define CFG_DEVICE_KEY 1
 #define CFG_DMC 1
 #define CFG_DMC_V3 1
-#define CFG_DOLBY_QUERY 1
+/* CFG_DOLBY_QUERY is not set */
 #define CFG_DRAM0_BASE 0x10000000
 #define CFG_DRAM0_SIZE 0xe0000000
 #define CFG_DT 1
@@ -114,6 +114,7 @@
 /* CFG_HW_KL is not set */
 /* CFG_HW_KL_TEST is not set */
 #define CFG_KDF_MKL 1
+/* CFG_KDF_MKL_MSR is not set */
 /* CFG_KDF_MKL_TEST is not set */
 #define CFG_KERN_LINKER_ARCH arm
 #define CFG_KERN_LINKER_FORMAT elf32-littlearm

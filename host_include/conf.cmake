@@ -1,5 +1,5 @@
 # auto-generated TEE configuration file
-# TEE version ATOS-V3.8.0-eb6c2b32a
+# TEE version ATOS-V3.8.0-6265415a1
 set(CFG_AES_GCM_TABLE_BASED y)
 # CFG_AE_DECRYPT is not set 
 set(CFG_ARM32_core y)
@@ -87,7 +87,7 @@ set(CFG_DEVICE_ENUM_PTA y)
 set(CFG_DEVICE_KEY y)
 set(CFG_DMC y)
 set(CFG_DMC_V3 y)
-set(CFG_DOLBY_QUERY y)
+# CFG_DOLBY_QUERY is not set 
 set(CFG_DRAM0_BASE 0x10000000)
 set(CFG_DRAM0_SIZE 0xe0000000)
 set(CFG_DT y)
@@ -114,6 +114,7 @@ set(CFG_HWSUPP_MEM_PERM_WXN y)
 # CFG_HW_KL is not set 
 # CFG_HW_KL_TEST is not set 
 set(CFG_KDF_MKL y)
+# CFG_KDF_MKL_MSR is not set 
 # CFG_KDF_MKL_TEST is not set 
 set(CFG_KERN_LINKER_ARCH arm)
 set(CFG_KERN_LINKER_FORMAT elf32-littlearm)
