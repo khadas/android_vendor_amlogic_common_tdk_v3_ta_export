@@ -467,6 +467,23 @@ typedef struct {
 	 */
 	void (*log)(const char* pxMessage);
 
+	/**<
+	  @brief
+	  Get the state of nexguard watermark service.
+
+	  @param[in] pxEmbedder
+	  Embedder object handle related to IP core to be configured
+
+	  @param[in] state
+	  Point to the state variable
+
+	  @retval ::NGWM_HAL_SUCCESS
+	  The operation completed successfully
+
+	  @retval ::NGWM_HAL_ERROR
+	  The operation failed
+	*/
+	TNgwmHalResult (*getState)(TNgwmEmbedder pxEmbedder, uint32_t* state);
 } INgwmHal;
 
 typedef enum VM_HW_Err {

@@ -113,6 +113,7 @@
 #define CFG_HWSUPP_MEM_PERM_WXN 1
 /* CFG_HW_KL is not set */
 /* CFG_HW_KL_TEST is not set */
+#define CFG_HW_RAMDOM_STACK_GUARD 1
 #define CFG_KDF_MKL 1
 /* CFG_KDF_MKL_MSR is not set */
 /* CFG_KDF_MKL_TEST is not set */

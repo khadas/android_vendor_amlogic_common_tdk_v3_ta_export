@@ -1,5 +1,5 @@
 # auto-generated TEE configuration file
-# TEE version ATOS-V3.8.0-6265415a1
+# TEE version ATOS-V3.8.0-7c782f1bb
 set(CFG_AES_GCM_TABLE_BASED y)
 # CFG_AE_DECRYPT is not set 
 set(CFG_ARM32_core y)
@@ -113,6 +113,7 @@ set(CFG_HWSUPP_MEM_PERM_PXN y)
 set(CFG_HWSUPP_MEM_PERM_WXN y)
 # CFG_HW_KL is not set 
 # CFG_HW_KL_TEST is not set 
+set(CFG_HW_RAMDOM_STACK_GUARD y)
 set(CFG_KDF_MKL y)
 # CFG_KDF_MKL_MSR is not set 
 # CFG_KDF_MKL_TEST is not set 

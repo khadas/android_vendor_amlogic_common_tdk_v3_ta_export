@@ -385,6 +385,7 @@ typedef struct {
 #define TEE_EXTEND_NGWM_ENABLE_SERVICE                     0x10C5
 #define TEE_EXTEND_NGWM_SET_STUB_EMBEDDING                 0x10C6
 #define TEE_EXTEND_NGWM_SET_24BIT_MODE                     0x10C7
+#define TEE_EXTEND_NGWM_GET_STATE                          0x10C8
 
 typedef struct {
 	void *pxEmbedder;
@@ -428,6 +429,10 @@ typedef struct {
 	bool xIsEnabled;
 } ngwm_set_24bit_mode_param;
 
+typedef struct {
+	void *pxEmbedder;
+	uint32_t state;
+} ngwm_get_state_param;
 
 /* =========================== CALLBACK ============================= */
 #define TEE_EXTEND_CALLBACK                                0x10D0

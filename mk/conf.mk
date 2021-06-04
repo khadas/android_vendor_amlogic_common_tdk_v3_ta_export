@@ -2,7 +2,7 @@ sm := ta_arm32
 sm-ta_arm32 := y
 CFG_ARM32_ta_arm32 := y
 ta_arm32-platform-cppflags := -DARM32=1 -D__ILP32__=1
-ta_arm32-platform-cflags := -mcpu=cortex-a53 -Os -g3 -fpic -mthumb -fno-short-enums -fno-common -mno-unaligned-access -mfloat-abi=hard -funsafe-math-optimizations -funwind-tables
+ta_arm32-platform-cflags := -mcpu=cortex-a53 -fstack-protector-strong -Os -g3 -fpic -mthumb -fno-short-enums -fno-common -mno-unaligned-access -mfloat-abi=hard -funsafe-math-optimizations -funwind-tables
 ta_arm32-platform-aflags := -pipe -g -mcpu=cortex-a53 -marm
 CFG_TA_FLOAT_SUPPORT := y
 CFG_CACHE_API := y
