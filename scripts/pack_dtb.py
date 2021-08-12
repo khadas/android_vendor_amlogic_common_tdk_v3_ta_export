@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -27,7 +27,7 @@ def get_args():
 	return parser.parse_args()
 
 def read_rsk(rsk):
-	from Crypto.PublicKey import RSA
+	from Cryptodome.PublicKey import RSA
 
 	with open(rsk, 'rb+') as f:
 		return RSA.importKey(f.read())
@@ -45,7 +45,7 @@ def cas_uuid_check(infile):
 		f = open(infile, 'r')
 		lines = f.readlines()
 	except:
-		print "Open File: %s fail!" %(infile)
+		print ("Open File: %s fail!" %(infile))
 		return False
 	else:
 		f.close
@@ -59,12 +59,12 @@ def cas_uuid_check(infile):
 		try:
 			ta_uuid = uuid.UUID(uuid_str)
 		except:
-			print "Bad format UUID!"
+			print ("Bad format UUID!")
 			return False
 		else:
 			if ta_uuid in tmp:
-				print "Dumplicate UUID: ",
-				print ta_uuid
+				print ("Dumplicate UUID: ",)
+				print (ta_uuid)
 				return False
 			tmp.append(ta_uuid)
 
@@ -81,7 +81,7 @@ def cas_uuid_parser(infile, outfile):
 		f = open(infile, 'r')
 		lines = f.readlines()
 	except:
-		print "Open File: %s fail!" %(infile)
+		print ("Open File: %s fail!" %(infile))
 		return 0
 	else:
 		f.close
@@ -89,7 +89,7 @@ def cas_uuid_parser(infile, outfile):
 	try:
 		f = open(outfile, 'wb+')
 	except:
-		print "Open File: %s fail!" %(outfile)
+		print ("Open File: %s fail!" %(outfile))
 		return 0
 
 	for line in lines:
@@ -101,7 +101,7 @@ def cas_uuid_parser(infile, outfile):
 		try:
 			ta_uuid = uuid.UUID(uuid_str)
 		except:
-			print "Bad format UUID!"
+			print ("Bad format UUID!")
 			return 0
 		else:
 			ta_uuid_hex = binascii.hexlify(ta_uuid.bytes_le)
@@ -123,7 +123,7 @@ def ta_antirollback_table_check(infile):
 		f = open(infile, 'r')
 		lines = f.readlines()
 	except:
-		print "Open File: %s fail!" %(infile)
+		print ("Open File: %s fail!" %(infile))
 		return False
 	else:
 		f.close
@@ -137,12 +137,12 @@ def ta_antirollback_table_check(infile):
 		try:
 			ta_uuid = uuid.UUID(uuid_str)
 		except:
-			print "Bad format UUID!"
+			print ("Bad format UUID!")
 			return False
 		else:
 			if ta_uuid in tmp:
-				print "Dumplicate UUID: ",
-				print ta_uuid
+				print ("Dumplicate UUID: ",)
+				print (ta_uuid)
 				return False
 			tmp.append(ta_uuid)
 
@@ -159,7 +159,7 @@ def ta_antirollback_table_parser(infile, outfile):
 		f = open(infile, 'r')
 		lines = f.readlines()
 	except:
-		print "Open File: %s fail!" %(infile)
+		print ("Open File: %s fail!" %(infile))
 		return 0
 	else:
 		f.close
@@ -167,7 +167,7 @@ def ta_antirollback_table_parser(infile, outfile):
 	try:
 		f = open(outfile, 'wb+')
 	except:
-		print "Open File: %s fail!" %(outfile)
+		print ("Open File: %s fail!" %(outfile))
 		return 0
 
 	for line in lines:
@@ -179,7 +179,7 @@ def ta_antirollback_table_parser(infile, outfile):
 		try:
 			ta_uuid = uuid.UUID(uuid_str)
 		except:
-			print "Bad format UUID!"
+			print ("Bad format UUID!")
 			return 0
 		else:
 			ta_uuid_hex = binascii.hexlify(ta_uuid.bytes_le)
@@ -189,7 +189,7 @@ def ta_antirollback_table_parser(infile, outfile):
 			ta_ver_str = line.split(':')[1]
 			ta_ver = int(ta_ver_str)
 		except:
-			print "Bad format TA version!"
+			print ("Bad format TA version!")
 			return 0
 		else:
 			ta_ver = struct.pack('<I', ta_ver)
@@ -206,7 +206,7 @@ def ta_perm_table_parser(infile, outfile):
 	import struct
 	import uuid
 	import binascii
-	import ConfigParser
+	import configparser
 
 	count = 0
 
@@ -222,7 +222,7 @@ def ta_perm_table_parser(infile, outfile):
 			try:
 				ta_uuid = uuid.UUID(uuid_str)
 			except:
-				print "Bad format UUID!"
+				print ("Bad format UUID!")
 				return 0
 			else:
 				ta_uuid_hex = binascii.hexlify(ta_uuid.bytes_le)
@@ -239,8 +239,8 @@ def main():
 	import array
 	import base64
 	import os
-	from Crypto.PublicKey import RSA
-	from Crypto.Util.number import long_to_bytes
+	from Cryptodome.PublicKey import RSA
+	from Cryptodome.Util.number import long_to_bytes
 	from pyfdt.pyfdt import Fdt, FdtNode, FdtPropertyStrings, FdtPropertyWords
 
 	tmpfile = ".tmp"
@@ -264,15 +264,15 @@ def main():
 	if args.rsk != 'null':
 		with open(args.rsk, 'rb+') as f:
 			rsk = RSA.importKey(f.read())
-			rsk_size = (rsk.size() + 1) / 8
+			rsk_size = rsk.size_in_bytes()
 			rsk_b64 = base64.b64encode(long_to_bytes(rsk.publickey().n))
 
-		keys.add_subnode(FdtPropertyStrings("rsk", [rsk_b64]))
+		keys.add_subnode(FdtPropertyStrings("rsk", [bytes.decode(rsk_b64)]))
 		keys.add_subnode(FdtPropertyWords("rsk_size", [rsk_size]))
 
 	if args.rek != 'null':
 		if args.rsk == 'null':
-			print "rsk is a must when rek is provided"
+			print ("rsk is a must when rek is provided")
 			exit(-1)
 
 		with open(args.rek, 'rb+') as f:
@@ -280,7 +280,7 @@ def main():
 			rek_size = len(rek)
 			rek_b64 = base64.b64encode(rek)
 
-		keys.add_subnode(FdtPropertyStrings("rek", [rek_b64]))
+		keys.add_subnode(FdtPropertyStrings("rek", [bytes.decode(rek_b64)]))
 		keys.add_subnode(FdtPropertyWords("rek_size", [rek_size]))
 
 	if args.pcpk != 'null':
@@ -289,21 +289,21 @@ def main():
 			pcpk_size = len(pcpk)
 			pcpk_b64 = base64.b64encode(pcpk)
 
-		keys.add_subnode(FdtPropertyStrings("pcpk", [pcpk_b64]))
+		keys.add_subnode(FdtPropertyStrings("pcpk", [bytes.decode(pcpk_b64)]))
 		keys.add_subnode(FdtPropertyWords("pcpk_size", [pcpk_size]))
 
 	if args.dev_rsk != 'null':
 		with open(args.dev_rsk, 'rb+') as f:
 			rsk = RSA.importKey(f.read())
-			rsk_size = (rsk.size() + 1) / 8
+			rsk_size = rsk.size_in_bytes()
 			rsk_b64 = base64.b64encode(long_to_bytes(rsk.publickey().n))
 
-		keys.add_subnode(FdtPropertyStrings("dev_rsk", [rsk_b64]))
+		keys.add_subnode(FdtPropertyStrings("dev_rsk", [bytes.decode(rsk_b64)]))
 		keys.add_subnode(FdtPropertyWords("dev_rsk_size", [rsk_size]))
 
 	if args.dev_rek != 'null':
 		if args.dev_rsk == 'null':
-			print "rsk is a must when rek is provided"
+			print ("rsk is a must when rek is provided")
 			exit(-1)
 
 		with open(args.dev_rek, 'rb+') as f:
@@ -311,13 +311,13 @@ def main():
 			rek_size = len(rek)
 			rek_b64 = base64.b64encode(rek)
 
-		keys.add_subnode(FdtPropertyStrings("dev_rek", [rek_b64]))
+		keys.add_subnode(FdtPropertyStrings("dev_rek", [bytes.decode(rek_b64)]))
 		keys.add_subnode(FdtPropertyWords("dev_rek_size", [rek_size]))
 
 	# cas keys and TA uuids
 	if args.cas_rsk != 'null' or args.cas_rek != 'null':
 		if args.cas_uuid == 'null':
-			print "cas keys provide, but cas TA UUID not provide!"
+			print ("cas keys provide, but cas TA UUID not provide!")
 			exit(-1)
 
 		cas = FdtNode("cas")
@@ -328,15 +328,15 @@ def main():
 	if args.cas_rsk != 'null':
 		with open(args.cas_rsk, 'rb+') as f:
 			rsk = RSA.importKey(f.read())
-			rsk_size = (rsk.size() + 1) / 8
+			rsk_size = rsk.size_in_bytes()
 			rsk_b64 = base64.b64encode(long_to_bytes(rsk.publickey().n))
 
-		cas.add_subnode(FdtPropertyStrings("rsk", [rsk_b64]))
+		cas.add_subnode(FdtPropertyStrings("rsk", [bytes.decode(rsk_b64)]))
 		cas.add_subnode(FdtPropertyWords("rsk_size", [rsk_size]))
 
 	if args.cas_rek != 'null':
 		if args.cas_rsk == 'null':
-			print "rsk is a must when rek is provided"
+			print ("rsk is a must when rek is provided")
 			exit(-1)
 
 		with open(args.cas_rek, 'rb+') as f:
@@ -344,21 +344,21 @@ def main():
 			rek_size = len(rek)
 			rek_b64 = base64.b64encode(rek)
 
-		cas.add_subnode(FdtPropertyStrings("rek", [rek_b64]))
+		cas.add_subnode(FdtPropertyStrings("rek", [bytes.decode(rek_b64)]))
 		cas.add_subnode(FdtPropertyWords("rek_size", [rek_size]))
 
 	if args.cas_uuid != 'null':
 		cas_uuid_num_max = 32
 		if not cas_uuid_check(args.cas_uuid):
-			print "BAD TA UUID format!"
+			print ("BAD TA UUID format!")
 			exit(-1)
 
 		count = cas_uuid_parser(args.cas_uuid, tmpfile)
 		if not count:
-			print "No valid TA UUID in %sl!" %(args.cas_uuid)
+			print ("No valid TA UUID in %sl!" %(args.cas_uuid))
 			exit(-1)
 		if count > cas_uuid_num_max:
-			print "TA UUID size(%d) exceed(max is %d)!" %(count, cas_uuid_num_max)
+			print ("TA UUID size(%d) exceed(max is %d)!" %(count, cas_uuid_num_max))
 			exit(-1)
 
 		with open(tmpfile, 'rb+') as f:
@@ -366,22 +366,22 @@ def main():
 		os.remove(tmpfile)
 		cas_uuid_b64 = base64.b64encode(cas_uuid_config)
 
-		cas.add_subnode(FdtPropertyStrings("uuids", [cas_uuid_b64]))
+		cas.add_subnode(FdtPropertyStrings("uuids", [bytes.decode(cas_uuid_b64)]))
 		cas.add_subnode(FdtPropertyWords("uuids_count", [count]))
 
 	# antirollback table
 	if args.arb != 'null':
 		arb_table_len_max = 32
 		if not ta_antirollback_table_check(args.arb):
-			print "BAD TA antirollback table format!"
+			print ("BAD TA antirollback table format!")
 			exit(-1)
 
 		count = ta_antirollback_table_parser(args.arb, tmpfile)
 		if not count:
-			print "No valid entry in TA antirollback table!"
+			print ("No valid entry in TA antirollback table!")
 			exit(-1)
 		if count > arb_table_len_max:
-			print "TA antirollback table size(%d) exceed(max is %d)!" %(count, arb_table_len_max)
+			print ("TA antirollback table size(%d) exceed(max is %d)!" %(count, arb_table_len_max))
 			exit(-1)
 
 		with open(tmpfile, 'rb+') as f:
@@ -393,7 +393,7 @@ def main():
 		arb.set_parent_node(root)
 		root.add_subnode(arb)
 		arb.add_subnode(FdtPropertyStrings("compatible", ["amlogic, tee arb"]))
-		arb.add_subnode(FdtPropertyStrings("arb", [arb_b64]))
+		arb.add_subnode(FdtPropertyStrings("arb", [bytes.decode(arb_b64)]))
 		arb.add_subnode(FdtPropertyWords("count", [count]))
 
 	# permission table
@@ -403,7 +403,7 @@ def main():
 		if not count:
 			exit(-1)
 		if count > perm_table_len_max:
-			print "TA permission table size(%d) exceed(max is %d)!" %(count, perm_table_len_max)
+			print ("TA permission table size(%d) exceed(max is %d)!" %(count, perm_table_len_max))
 			exit(-1)
 		with open(tmpfile, 'rb+') as f:
 			perm_config = f.read()
@@ -414,65 +414,65 @@ def main():
 		perm.set_parent_node(root)
 		root.add_subnode(perm)
 		perm.add_subnode(FdtPropertyStrings("compatible", ["amlogic, tee perm"]))
-		perm.add_subnode(FdtPropertyStrings("perm", [perm_b64]))
+		perm.add_subnode(FdtPropertyStrings("perm", [bytes.decode(perm_b64)]))
 		perm.add_subnode(FdtPropertyWords("count", [count]))
 
 	fdt = Fdt()
 	fdt.add_rootnode(root)
 
 	if args.dts != 'null':
-		print 'Generating dts file...'
+		print ('Generating dts file...')
 
 		with open(args.dts, 'wb+') as f:
-			f.write(fdt.to_dts())
+			f.write(fdt.to_dts().encode())
 
 	if args.out != 'null':
 		dtb_header_len = 32
 		dtb_len_max = 12 * 1024 - dtb_header_len
 		dtb_len = len(fdt.to_dtb())
 		if dtb_len > dtb_len_max:
-			print "dtb size(%d) exceed(max is %d)!" %(dtb_len, dtb_len_max)
+			print ("dtb size(%d) exceed(max is %d)!" %(dtb_len, dtb_len_max))
 			exit(-1)
 
-		print 'Packing ...'
+		print ('Packing ...')
 		if args.rsk != 'null':
-			rsk_size = (read_rsk(args.rsk).size() + 1) / 8 * 8
-			print '               rsk.name = ' + args.rsk
-			print '               rsk.size = {}'.format(rsk_size)
+			rsk_size = read_rsk(args.rsk).size_in_bits()
+			print ('               rsk.name = ' + args.rsk)
+			print ('               rsk.size = {}'.format(rsk_size))
 		if args.rek != 'null':
 			rek_size = len(read_key(args.rek))
-			print '               rek.name = ' + args.rek
-			print '               rek.size = ' + str(rek_size)
+			print ('               rek.name = ' + args.rek)
+			print ('               rek.size = ' + str(rek_size))
 		if args.pcpk != 'null':
 			pcpk_size = len(read_key(args.pcpk))
-			print '               pcpk.name = ' + args.pcpk
-			print '               pcpk.size = ' + str(pcpk_size)
+			print ('               pcpk.name = ' + args.pcpk)
+			print ('               pcpk.size = ' + str(pcpk_size))
 		if args.dev_rsk != 'null':
-			rsk_size = (read_rsk(args.dev_rsk).size() + 1) / 8 * 8
-			print '           dev-rsk.name = ' + args.dev_rsk
-			print '           dev-rsk.size = {}'.format(rsk_size)
+			rsk_size = read_rsk(args.dev_rsk).size_in_bits()
+			print ('           dev-rsk.name = ' + args.dev_rsk)
+			print ('           dev-rsk.size = {}'.format(rsk_size))
 		if args.dev_rek != 'null':
 			rek_size = len(read_key(args.dev_rek))
-			print '           dev-rek.name = ' + args.dev_rek
-			print '           dev-rek.size = ' + str(rek_size)
+			print ('           dev-rek.name = ' + args.dev_rek)
+			print ('           dev-rek.size = ' + str(rek_size))
 		if args.cas_rsk != 'null':
-			rsk_size = (read_rsk(args.cas_rsk).size() + 1) / 8 * 8
-			print '           cas-rsk.name = ' + args.cas_rsk
-			print '           cas-rsk.size = {}'.format(rsk_size)
+			rsk_size = read_rsk(args.cas_rsk).size_in_bits()
+			print ('           cas-rsk.name = ' + args.cas_rsk)
+			print ('           cas-rsk.size = {}'.format(rsk_size))
 		if args.cas_rek != 'null':
 			rek_size = len(read_key(args.cas_rek))
-			print '           cas-rek.name = ' + args.cas_rek
-			print '           cas-rek.size = ' + str(rek_size)
+			print ('           cas-rek.name = ' + args.cas_rek)
+			print ('           cas-rek.size = ' + str(rek_size))
 
-		print '             image.name = ' + args.inf
-		print '    Output:  image.name = ' + args.out
+		print ('             image.name = ' + args.inf)
+		print ('    Output:  image.name = ' + args.out)
 
 		with open(args.inf, 'rb+') as f:
 			raw = f.read()
 
 		with open(args.out, 'wb+') as f:
 			f.write(raw)
-			offs = raw.index("BTD@") + dtb_header_len
+			offs = raw.index(b"BTD@") + dtb_header_len
 			f.seek(offs)
 			f.write(fdt.to_dtb())
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -91,10 +91,10 @@ class ta_cert_hdr():
 def main():
 	import sys
 	import struct
-	from Crypto.Hash import SHA256
-	from Crypto.PublicKey import RSA
-	from Crypto.Signature import PKCS1_v1_5
-	from Crypto.Util.number import long_to_bytes
+	from Cryptodome.Hash import SHA256
+	from Cryptodome.PublicKey import RSA
+	from Cryptodome.Signature import PKCS1_v1_5
+	from Cryptodome.Util.number import long_to_bytes
 
 	args = get_args()
 
@@ -106,11 +106,11 @@ def main():
 	ta_payload_sig_size = 256
 
 	if is_signed_ta(args.ta) == False:
-		print 'Not a valid signed TA'
+		print ('Not a valid signed TA')
 		sys.exit(0)
 
 	if is_double_signed_ta(args.ta) == True:
-		print 'double signed TA already'
+		print ('double signed TA already')
 		sys.exit(0)
 
 	if args.signed_ta == 'null':
@@ -146,13 +146,13 @@ def main():
 
 		signed_ta_f.write(ta_f.read())
 
-	print 'Signing TA ...'
-	print '  Input:'
-	print '                  ta_prv_key.name = ' + args.ta_prv_key
-	print '                  ta_prv_key.size = {}'.format(ta_prv_key.size() + 1)
-	print '                    cert_sig.name = ' + args.cert_sig
-	print '                          ta.name = ' + args.ta
-	print '  Output:          signed_ta.name = ' + args.signed_ta
+	print ('Signing TA ...')
+	print ('  Input:')
+	print ('                  ta_prv_key.name = ' + args.ta_prv_key)
+	print ('                  ta_prv_key.size = {}'.format(ta_prv_key.size_in_bits()))
+	print ('                    cert_sig.name = ' + args.cert_sig)
+	print ('                          ta.name = ' + args.ta)
+	print ('  Output:          signed_ta.name = ' + args.signed_ta)
 
 if __name__ == "__main__":
 	main()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -17,21 +17,21 @@ def get_args():
 
 def main():
 	import uuid
-	import md5
+	from hashlib import md5
 
 	args = get_args()
 
 	uuid = uuid.uuid4()
 
-	h = md5.new()
+	h = md5()
 	h.update(uuid.bytes_le)
 
 	f = open(args.out, 'wb')
 	f.write(h.digest())
 	f.close()
 
-	print 'Generate Custom Key...'
-	print '    Output:      ta aes iv = ' + args.out
+	print ('Generate Custom Key...')
+	print ('    Output:      ta aes iv = ' + args.out)
 
 if __name__ == "__main__":
 	main()

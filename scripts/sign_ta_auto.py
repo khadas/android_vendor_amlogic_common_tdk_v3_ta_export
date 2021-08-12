@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -52,23 +52,19 @@ def main():
 
 	if is_signed_ta(args.inf_unsigned_ta) == True:
 		if args.outf_signed_ta == 'null':
+			print ('input ta file had been signed')
 			sys.exit(0)
 
 		with open(args.inf_unsigned_ta, 'rb') as f:
 			payload = f.read()
 		with open(args.outf_signed_ta, 'wb') as f:
+			print ('input ta file had been signed')
 			f.write(payload)
 			sys.exit(0);
 
-	log = logging.getLogger("Core.Analysis.Processing")
-	INTERPRETER = "/usr/bin/python"
-
-	if not os.path.exists(INTERPRETER):
-		log.error("Cannot find INTERPRETER at path \"%s\"." % INTERPRETER)
-
 	file_path = str(sys.path[0])
-	gen_cert_cmd = [INTERPRETER, file_path + "/gen_cert_key.py"]
-	sign_cmd = [INTERPRETER, file_path + "/sign_ta.py"]
+	gen_cert_cmd = [sys.executable, file_path + "/gen_cert_key.py"]
+	sign_cmd = [sys.executable, file_path + "/sign_ta.py"]
 
 	target_path = os.path.abspath(os.path.dirname(args.inf_unsigned_ta))
 	if args.outf_signed_ta == 'null':

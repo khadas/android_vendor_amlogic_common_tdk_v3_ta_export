@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -95,17 +95,17 @@ class ta_cert_hdr():
 class ta_cert():
 	def __init__(self, market_id, chipset_id):
 		self.__cert_hdr = ta_cert_hdr(market_id, chipset_id)
-		self.__ta_pub_key = ''  # 256bytes ta rsa pub key
+		self.__ta_pub_key = b''  # 256bytes ta rsa pub key
 
 		# 256bytes sig of cert header and ta pub key by root prv key
-		self.__cert_sig = ''
+		self.__cert_sig = b''
 
-		self.__ta_sig = ''      # 256bytes sig of ta by ta prv key
+		self.__ta_sig = b''      # 256bytes sig of ta by ta prv key
 
 	def update_attrs(self, ta_pub_key, cert_sig, ta_sig, uuid):
 		import struct
 		import array
-		from Crypto.Util.number import long_to_bytes
+		from Cryptodome.Util.number import long_to_bytes
 
 		for x in array.array("B", long_to_bytes(ta_pub_key.n)):
 			self.__ta_pub_key += struct.pack("B", x)
@@ -138,11 +138,11 @@ class signed_ta_hdr():
 			self.__ta_cert.serialize()
 
 def aes256_cbc_enc(key, iv, src_data):
-	from Crypto.Cipher import AES
+	from Cryptodome.Cipher import AES
 
 	to_enc_data = src_data
 	if (len(src_data) % 16) != 0:
-		to_enc_data = src_data + '0' * (16 - (len(src_data) % 16))
+		to_enc_data = src_data + b'0' * (16 - (len(src_data) % 16))
 
 	return AES.new(key, AES.MODE_CBC, iv).encrypt(to_enc_data)
 
@@ -154,7 +154,7 @@ def is_signed_ta(ta):
 	img_type = struct.unpack('<I', f.read(4))[0]
 	f.close()
 	if img_type == 2:
-		print 'ta has been signed'
+		print ('ta has been signed')
 		return True
 	else:
 		return False
@@ -162,9 +162,9 @@ def is_signed_ta(ta):
 def main():
 	import sys
 	import struct
-	from Crypto.Signature import PKCS1_v1_5
-	from Crypto.Hash import SHA256
-	from Crypto.PublicKey import RSA
+	from Cryptodome.Signature import PKCS1_v1_5
+	from Cryptodome.Hash import SHA256
+	from Cryptodome.PublicKey import RSA
 
 	args = get_args()
 
@@ -179,7 +179,7 @@ def main():
 				args.ta_aes_key_enc == 'null':
 		enc_type = 0
 	else:
-		print 'aes key file or iv file or enc aes key file is null, exit'
+		print ('aes key file or iv file or enc aes key file is null, exit')
 		sys.exit(0)
 
 	f = open(args.unsigned_ta, 'rb')
@@ -250,19 +250,19 @@ def main():
 	f.write(payload)
 	f.close()
 
-	print 'Signing TA ...'
-	print '  Input:                  arb_cvn = ' + str(args.arb_cvn)
-	print '                        market_id = ' + args.market_id
-	print '                       chipset_id = ' + args.chipset_id
-	print '                         arb_type = ' + str(args.arb_type)
-	print '                  ta_prv_key.name = ' + args.ta_prv_key
-	print '                  ta_prv_key.size = {}'.format(ta_prv_key.size() + 1)
-	print '                    cert_sig.name = ' + args.cert_sig
-	print '                  ta_aes_key.name = ' + args.ta_aes_key
-	print '                   ta_aes_iv.name = ' + args.ta_aes_iv
-	print '              ta_aes_key_enc.name = ' + args.ta_aes_key_enc
-	print '                 unsigned_ta.name = ' + args.unsigned_ta
-	print '  Output:          signed_ta.name = ' + args.signed_ta
+	print ('Signing TA ...')
+	print ('  Input:                  arb_cvn = ' + str(args.arb_cvn))
+	print ('                        market_id = ' + args.market_id)
+	print ('                       chipset_id = ' + args.chipset_id)
+	print ('                         arb_type = ' + str(args.arb_type))
+	print ('                  ta_prv_key.name = ' + args.ta_prv_key)
+	print ('                  ta_prv_key.size = {}'.format(ta_prv_key.size_in_bits()))
+	print ('                    cert_sig.name = ' + args.cert_sig)
+	print ('                  ta_aes_key.name = ' + args.ta_aes_key)
+	print ('                   ta_aes_iv.name = ' + args.ta_aes_iv)
+	print ('              ta_aes_key_enc.name = ' + args.ta_aes_key_enc)
+	print ('                 unsigned_ta.name = ' + args.unsigned_ta)
+	print ('  Output:          signed_ta.name = ' + args.signed_ta)
 
 if __name__ == "__main__":
 	main()

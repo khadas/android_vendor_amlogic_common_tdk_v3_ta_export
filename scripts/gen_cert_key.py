@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -56,7 +56,7 @@ class ta_cert_hdr():
 						self.__chipset_id, *self.__rsv)
 
 def aes256_cbc_enc(key, iv, src_data):
-	from Crypto.Cipher import AES
+	from Cryptodome.Cipher import AES
 
 	to_enc_data = src_data
 	if (len(src_data) % 16) != 0:
@@ -65,11 +65,11 @@ def aes256_cbc_enc(key, iv, src_data):
 	return AES.new(key, AES.MODE_CBC, iv).encrypt(to_enc_data)
 
 def gen_nonce():
-	import md5
+	from hashlib import md5
 	import uuid
 
 	tmp_id = uuid.uuid4()
-	tmp_md5 = md5.new()
+	tmp_md5 = md5()
 	tmp_md5.update(tmp_id.bytes_le)
 
 	return tmp_md5.digest()
@@ -78,10 +78,10 @@ def main():
 	import struct
 	import array
 	import uuid
-	from Crypto.Signature import PKCS1_v1_5
-	from Crypto.Hash import SHA256
-	from Crypto.PublicKey import RSA
-	from Crypto.Util.number import long_to_bytes
+	from Cryptodome.Signature import PKCS1_v1_5
+	from Cryptodome.Hash import SHA256
+	from Cryptodome.PublicKey import RSA
+	from Cryptodome.Util.number import long_to_bytes
 
 	args = get_args()
 
@@ -105,7 +105,7 @@ def main():
 		nonce_key_iv_enc = aes256_cbc_enc(root_aes_key, root_aes_iv, \
 				nonce + ta_aes_key + ta_aes_iv)
 		if (nonce_key_iv_enc == 'null'):
-			print 'encrypt ta aes key and ta aes iv failed'
+			print ('encrypt ta aes key and ta aes iv failed')
 			sys.exit(1)
 
 		f = open(args.ta_aes_key_enc, 'wb')
@@ -145,22 +145,22 @@ def main():
 	f.write(cert_sig)
 	f.close()
 
-	print 'Generate Custom Key...'
-	print '  Input:                       uuid = ' + args.uuid
-	print '                          market_id = ' + args.market_id
-	print '                         chipset_id = ' + args.chipset_id
-	print '                  root_prv_key.name = ' + args.root_prv_key
-	print '                  root_prv_key.size = {}'.\
-		format(root_prv_key.size() + 1)
-	print '                    ta_pub_key.name = ' + args.ta_pub_key
-	print '                    ta_pub_key.size = {}'.\
-		format(ta_pub_key.size() + 1)
-	print '                  root_aes_key.name = ' + args.root_aes_key
-	print '                    ta_aes_key.name = ' + args.ta_aes_key
-	print '                    ta_aes_iv.name  = ' + args.ta_aes_iv
-	print '  Output:             cert_sig.name = ' + args.cert_sig
+	print ('Generate Custom Key...')
+	print ('  Input:                       uuid = ' + args.uuid)
+	print ('                          market_id = ' + args.market_id)
+	print ('                         chipset_id = ' + args.chipset_id)
+	print ('                  root_prv_key.name = ' + args.root_prv_key)
+	print ('                  root_prv_key.size = {}'.\
+		format(root_prv_key.size_in_bits()))
+	print ('                    ta_pub_key.name = ' + args.ta_pub_key)
+	print ('                    ta_pub_key.size = {}'.\
+		format(ta_pub_key.size_in_bits()))
+	print ('                  root_aes_key.name = ' + args.root_aes_key)
+	print ('                    ta_aes_key.name = ' + args.ta_aes_key)
+	print ('                    ta_aes_iv.name  = ' + args.ta_aes_iv)
+	print ('  Output:             cert_sig.name = ' + args.cert_sig)
 	if args.ta_aes_key_enc != 'null':
-		print '                ta_aes_key_enc.name = ' + args.ta_aes_key_enc
+		print ('                ta_aes_key_enc.name = ' + args.ta_aes_key_enc)
 
 if __name__ == "__main__":
 	main()

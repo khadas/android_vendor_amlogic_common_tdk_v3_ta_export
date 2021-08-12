@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2016 Amlogic, Inc. All rights reserved.
 #
@@ -17,7 +17,7 @@ def get_args():
 
 def main():
 	import uuid
-	from Crypto.Hash import SHA256
+	from Cryptodome.Hash import SHA256
 
 	args = get_args()
 
@@ -30,8 +30,8 @@ def main():
 	f.write(h.digest())
 	f.close()
 
-	print 'Generate Custom Key...'
-	print '    Output:      ta aes key = ' + args.out
+	print ('Generate Custom Key...')
+	print ('    Output:      ta aes key = ' + args.out)
 
 if __name__ == "__main__":
 	main()
