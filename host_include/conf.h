@@ -1,12 +1,13 @@
 #ifndef _out_arm_plat_meson_include_generated_conf_h_
 #define _out_arm_plat_meson_include_generated_conf_h_
-#define CFG_AES_GCM_TABLE_BASED 1
+/* CFG_AES_GCM_TABLE_BASED is not set */
 /* CFG_AE_DECRYPT is not set */
 #define CFG_ARM32_core 1
 #define CFG_ARM32_ldelf 1
 #define CFG_ARM32_ta_arm32 1
 #define CFG_ASLR_SEED 0x1f800000
 #define CFG_ATOS_IMPL_VERSION 0
+#define CFG_AUCPU_FW_WORK_RAM_SIZE 0x20000
 /* CFG_BOOT_SECONDARY_REQUEST is not set */
 #define CFG_CACHE_API 1
 #define CFG_CC_OPTIMIZE_FOR_SIZE 1
@@ -39,7 +40,8 @@
 #define CFG_CRYPTOLIB_NAME tomcrypt
 #define CFG_CRYPTOLIB_NAME_tomcrypt 1
 #define CFG_CRYPTO_AES 1
-#define CFG_CRYPTO_AES_AML 1
+/* CFG_CRYPTO_AES_AML is not set */
+#define CFG_CRYPTO_AES_ARM32_CE 1
 /* CFG_CRYPTO_AES_GCM_FROM_CRYPTOLIB is not set */
 #define CFG_CRYPTO_CBC 1
 #define CFG_CRYPTO_CBC_MAC 1
@@ -49,7 +51,7 @@
 #define CFG_CRYPTO_CTR 1
 #define CFG_CRYPTO_CTS 1
 #define CFG_CRYPTO_DES 1
-#define CFG_CRYPTO_DES_AML 1
+/* CFG_CRYPTO_DES_AML is not set */
 #define CFG_CRYPTO_DH 1
 #define CFG_CRYPTO_DSA 1
 #define CFG_CRYPTO_ECB 1
@@ -58,18 +60,21 @@
 /* CFG_CRYPTO_GCM_AML is not set */
 #define CFG_CRYPTO_HKDF 1
 #define CFG_CRYPTO_HMAC 1
-#define CFG_CRYPTO_HMAC_AML 1
+/* CFG_CRYPTO_HMAC_AML is not set */
 /* CFG_CRYPTO_INTERNAL_TEST is not set */
 #define CFG_CRYPTO_MD5 1
 #define CFG_CRYPTO_PBKDF2 1
+#define CFG_CRYPTO_RAM_SIZE 0x100000
 #define CFG_CRYPTO_RSA 1
 #define CFG_CRYPTO_RSASSA_NA1 1
 #define CFG_CRYPTO_SHA1 1
-#define CFG_CRYPTO_SHA1_AML 1
+/* CFG_CRYPTO_SHA1_AML is not set */
+#define CFG_CRYPTO_SHA1_ARM32_CE 1
 #define CFG_CRYPTO_SHA224 1
-#define CFG_CRYPTO_SHA224_AML 1
+/* CFG_CRYPTO_SHA224_AML is not set */
 #define CFG_CRYPTO_SHA256 1
-#define CFG_CRYPTO_SHA256_AML 1
+/* CFG_CRYPTO_SHA256_AML is not set */
+#define CFG_CRYPTO_SHA256_ARM32_CE 1
 #define CFG_CRYPTO_SHA384 1
 #define CFG_CRYPTO_SHA512 1
 #define CFG_CRYPTO_SHA512_256 1
@@ -79,6 +84,7 @@
 #define CFG_CRYPTO_SM2_PKE 1
 #define CFG_CRYPTO_SM3 1
 #define CFG_CRYPTO_SM4 1
+#define CFG_CRYPTO_WITH_CE 1
 #define CFG_CRYPTO_XTS 1
 /* CFG_DEBUG is not set */
 #define CFG_DEBUG_INFO 1
@@ -87,7 +93,7 @@
 #define CFG_DEVICE_KEY 1
 #define CFG_DMC 1
 #define CFG_DMC_V3 1
-/* CFG_DOLBY_QUERY is not set */
+#define CFG_DOLBY_QUERY 1
 #define CFG_DRAM0_BASE 0x10000000
 #define CFG_DRAM0_SIZE 0xe0000000
 #define CFG_DT 1
@@ -111,6 +117,7 @@
 /* CFG_HDCP_DEBUG is not set */
 #define CFG_HWSUPP_MEM_PERM_PXN 1
 #define CFG_HWSUPP_MEM_PERM_WXN 1
+#define CFG_HWSUPP_PMULT_64 1
 /* CFG_HW_KL is not set */
 /* CFG_HW_KL_TEST is not set */
 #define CFG_HW_RAMDOM_STACK_GUARD 1
@@ -175,9 +182,11 @@
 /* CFG_SYSCALL_FTRACE is not set */
 /* CFG_SYSCALL_WRAPPERS_MCOUNT is not set */
 #define CFG_SYSTEM_PTA 1
+#define CFG_SYS_ANTIROLLBACK 1
 #define CFG_S_STORAGE 1
 #define CFG_TA_ANTIROLLBACK 1
 /* CFG_TA_ANTIROLLBACK_DEBUG is not set */
+/* CFG_TA_ANTIROLLBACK_OTP is not set */
 #define CFG_TA_ANTIROLLBACK_SW 1
 #define CFG_TA_ASLR 1
 #define CFG_TA_ASLR_MAX_OFFSET_PAGES 128
@@ -206,10 +215,11 @@
 #define CFG_TEE_TA_LOG_LEVEL 1
 /* CFG_TEE_TA_MALLOC_DEBUG is not set */
 #define CFG_TEE_TIMER 1
+#define CFG_TTBCR_N_VALUE 7
 #define CFG_TVP 1
 #define CFG_TVP_RAM_SIZE 0x01000000
 #define CFG_TVP_RAM_START (CFG_SHMEM_START - CFG_TVP_RAM_SIZE)
-#define CFG_TZDRAM_SIZE (CFG_VIDFW_RAM_START - CFG_TZDRAM_START)
+#define CFG_TZDRAM_SIZE (CFG_VP9_PROB_RAM_START - CFG_TZDRAM_START)
 #define CFG_TZDRAM_START 0x05300000
 /* CFG_ULIBS_MCOUNT is not set */
 /* CFG_ULIBS_SHARED is not set */
@@ -220,8 +230,13 @@
 #define CFG_VIDFW_RAM_SIZE 0x00100000
 #define CFG_VIDFW_RAM_START (CFG_TVP_RAM_START - CFG_VIDFW_RAM_SIZE)
 /* CFG_VIRTUALIZATION is not set */
+#define CFG_VP9_PROB_PROCESS 1
+#define CFG_VP9_PROB_RAM_SIZE 0x20000
+#define CFG_VP9_PROB_RAM_START (CFG_VIDFW_RAM_START - CFG_VP9_PROB_RAM_SIZE)
 /* CFG_WATERMARK_NEXGUARD is not set */
+/* CFG_WATERMARK_NEXGUARD_TEST is not set */
 /* CFG_WATERMARK_VERIMATRIX is not set */
+/* CFG_WATERMARK_VERIMATRIX_TEST is not set */
 #define CFG_WERROR 1
 #define CFG_WITH_ARM_TRUSTED_FW 1
 #define CFG_WITH_DEBUG 1
@@ -237,7 +252,7 @@
 #define PLATFORM_meson 1
 #define _CFG_CORE_LTC_ACIPHER 1
 #define _CFG_CORE_LTC_AES 1
-/* _CFG_CORE_LTC_AES_ARM32_CE is not set */
+#define _CFG_CORE_LTC_AES_ARM32_CE 1
 /* _CFG_CORE_LTC_AES_ARM64_CE is not set */
 #define _CFG_CORE_LTC_ASN1 1
 #define _CFG_CORE_LTC_AUTHENC 1
@@ -245,7 +260,7 @@
 #define _CFG_CORE_LTC_CBC 1
 #define _CFG_CORE_LTC_CBC_MAC 1
 #define _CFG_CORE_LTC_CCM 1
-/* _CFG_CORE_LTC_CE is not set */
+#define _CFG_CORE_LTC_CE 1
 #define _CFG_CORE_LTC_CIPHER 1
 #define _CFG_CORE_LTC_CMAC 1
 #define _CFG_CORE_LTC_CTR 1
@@ -265,11 +280,11 @@
 /* _CFG_CORE_LTC_PAGER is not set */
 #define _CFG_CORE_LTC_RSA 1
 #define _CFG_CORE_LTC_SHA1 1
-/* _CFG_CORE_LTC_SHA1_ARM32_CE is not set */
+#define _CFG_CORE_LTC_SHA1_ARM32_CE 1
 /* _CFG_CORE_LTC_SHA1_ARM64_CE is not set */
 #define _CFG_CORE_LTC_SHA224 1
 #define _CFG_CORE_LTC_SHA256 1
-/* _CFG_CORE_LTC_SHA256_ARM32_CE is not set */
+#define _CFG_CORE_LTC_SHA256_ARM32_CE 1
 /* _CFG_CORE_LTC_SHA256_ARM64_CE is not set */
 #define _CFG_CORE_LTC_SHA384 1
 #define _CFG_CORE_LTC_SHA512 1

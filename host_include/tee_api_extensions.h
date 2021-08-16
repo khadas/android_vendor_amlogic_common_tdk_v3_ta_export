@@ -111,7 +111,7 @@ TEE_Result TEE_Unify_Read(uint8_t *name, uint32_t namelen,
 #define TEE_HDCP_KEY_TYPE_TX14		0x1
 #define TEE_HDCP_KEY_TYPE_TX22		0x2
 #define TEE_HDCP_KEY_TYPE_RX14		0x3
-#define TEE_HDCP_KEY_TYPE_RX22		0x4
+#define TEE_HDCP_KEY_TYPE_RX22_FW_PRIVATE		0x6
 
 #define TEE_HDCP_MODE_INVALID		0x0
 #define TEE_HDCP_MODE_14		0x1
