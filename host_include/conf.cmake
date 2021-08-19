@@ -1,5 +1,5 @@
 # auto-generated TEE configuration file
-# TEE version ATOS-V3.8.0-2fe620dda
+# TEE version ATOS-V3.8.0-2b0e1b508
 # CFG_AES_GCM_TABLE_BASED is not set 
 # CFG_AE_DECRYPT is not set 
 set(CFG_ARM32_core y)

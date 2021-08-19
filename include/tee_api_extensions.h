@@ -707,6 +707,16 @@ TEE_Result TEE_CipherDecrypt_With_KT(uint32_t handle, uint32_t algo,
 */
 TEE_Result TEE_Keytable_Get_Status(uint32_t handle, uint32_t *status);
 
+/*
+ * Desc: invalidate key entry in key table
+ *
+ * Input:
+ * handle: key table entry handle
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_Keytable_Invalidate(uint32_t handle);
+
 /* ============================= KEYLADDER API ============================= */
 /*
  * Desc: run key ladder and install key to key table entry

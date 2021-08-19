@@ -317,6 +317,7 @@ struct tee_ae_crypt_with_derived_ksecret_param {
 #define TEE_EXTEND_KT_CONFIG                               0x1063
 #define TEE_EXTEND_KT_CRYPTO                               0x1064
 #define TEE_EXTEND_KT_GET_STATUS                           0x1065
+#define TEE_EXTEND_KT_INVALIDATE                           0x1066
 
 struct tee_kt_alloc_param {
 	uint32_t flag;
@@ -340,6 +341,10 @@ struct tee_kt_get_status_param {
 };
 
 struct tee_kt_free_param {
+	uint32_t handle;
+};
+
+struct tee_kt_invalidate_param {
 	uint32_t handle;
 };
 

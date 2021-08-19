@@ -147,6 +147,7 @@ struct tee_timer {
 
 #define KT_ALLOC_FLAG_IV_MASK         (1 << 0)
 #define KT_ALLOC_FLAG_HOST_MASK       (1 << 1)
+#define KT_ALLOC_FLAG_NSK_M2M_MASK    (1 << 8)
 
 #define CRYPTO_DMA_THREAD_DEFAULT     0xffffffff
 /* keyladder narga mode mrk type */
