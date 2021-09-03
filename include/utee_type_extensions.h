@@ -318,6 +318,7 @@ struct tee_ae_crypt_with_derived_ksecret_param {
 #define TEE_EXTEND_KT_CRYPTO                               0x1064
 #define TEE_EXTEND_KT_GET_STATUS                           0x1065
 #define TEE_EXTEND_KT_INVALIDATE                           0x1066
+#define TEE_EXTEND_KT_CRYPTO_EXT                           0x1067
 
 struct tee_kt_alloc_param {
 	uint32_t flag;
@@ -361,6 +362,21 @@ struct tee_kt_crypto_param {
 	uint32_t thread;
 };
 
+struct tee_kt_crypto_param_ext {
+	uint32_t handle;
+	uint32_t algo;
+	uint32_t key_len;
+	const uint8_t *iv;
+	uint32_t iv_len;
+	const uint8_t *src;
+	uint32_t src_len;
+	uint8_t *dst;
+	uint32_t dst_len;
+	uint32_t decrypt;
+	uint32_t thread;
+	const uint8_t *user_param;
+	uint32_t user_param_len;
+};
 /* ================================ KEYLADDER ============================ */
 #define TEE_EXTEND_KL_RUN_V2                                0x10A0
 #define TEE_EXTEND_KL_CR_V2                                 0x10A1

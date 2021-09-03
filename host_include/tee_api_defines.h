@@ -139,6 +139,9 @@
 #define TEE_ALG_SM4_ECB_NOPAD                   0x10000014
 #define TEE_ALG_SM4_CBC_NOPAD                   0x10000114
 #define TEE_ALG_SM4_CTR                         0x10000214
+#define TEE_ALG_S17_ECB_NOPAD                   0x10000015
+#define TEE_ALG_S17_CBC_NOPAD                   0x10000115
+#define TEE_ALG_S17_CTR                         0x10000215
 #define TEE_ALG_RSASSA_PKCS1_V1_5_MD5           0x70001830
 #define TEE_ALG_RSASSA_PKCS1_V1_5_SHA1          0x70002830
 #define TEE_ALG_RSASSA_PKCS1_V1_5_SHA224        0x70003830

@@ -100,6 +100,7 @@ struct tee_timer {
 #define KT_ALGO_AES          (0)
 #define KT_ALGO_TDES         (1)
 #define KT_ALGO_DES          (2)
+#define KT_USAGE_S17         (3)
 #define KT_ALGO_NDL          (7)
 #define KT_ALGO_ND           (8)
 #define KT_ALGO_CSA3         (9)

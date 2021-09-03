@@ -697,6 +697,64 @@ TEE_Result TEE_CipherDecrypt_With_KT(uint32_t handle, uint32_t algo,
 		uint32_t thread);
 
 /*
+ * Desc: cipher encrypt with key table extension
+ *
+ * Input:
+ * algo: the algo
+ * key_len: the length of key
+ * iv: iv used to do encrypt
+ * iv_len: iv size
+ * src: source code need encrypt
+ * src_len: source code size
+ * thread: crypto DMA thread, default with CRYPTO_DMA_THREAD_DEFAULT
+ * user_param: extra place holder for crypto engine that is not belong to standard
+ * user_param_len: length of user param
+ *
+ * Output:
+ * dst: encrypted code
+ * dst_len: encrypted code size
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_CipherEncrypt_With_KT_EXT(
+		uint32_t handle, uint32_t algo,
+		uint32_t key_len,
+		const uint8_t *iv, uint32_t iv_len,
+		const uint8_t *src, uint32_t src_len,
+		uint8_t *dst, uint32_t *dst_len,
+		uint32_t thread,
+		const uint8_t *user_param, uint32_t user_param_len);
+
+/*
+ * Desc: cipher decrypt with key table extension
+ *
+ * Input:
+ * algo: the algo
+ * key_len: the length of key
+ * iv: iv used to do decrypt
+ * iv_len: iv size
+ * src: source code need decrypt
+ * src_len: source code size
+ * thread: crypto DMA thread, default with CRYPTO_DMA_THREAD_DEFAULT
+ * user_param: extra place holder for crypto engine that is not belong to standard
+ * user_param_len: length of user param
+ *
+ * Output:
+ * dst: decrypted code
+ * dst_len: decrypted code size
+ *
+ * Return: TEE_SUCCESS if suceess
+ */
+TEE_Result TEE_CipherDecrypt_With_KT_EXT(
+		uint32_t handle, uint32_t algo,
+		uint32_t key_len,
+		const uint8_t *iv, uint32_t iv_len,
+		const uint8_t *src, uint32_t src_len,
+		uint8_t *dst, uint32_t *dst_len,
+		uint32_t thread,
+		const uint8_t *user_param, uint32_t user_param_len);
+
+/*
 * Desc: get key status in key table
 *
 * Input:
